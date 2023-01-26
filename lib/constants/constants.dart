@@ -8,6 +8,6 @@ class Styles {
 
 
   static TextStyle textStyle =
-      TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.w500);
+      TextStyle(fontSize: 16, color: textColor, fontWeight: FontWeight.bold);
 
 }

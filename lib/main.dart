@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_admin/page/dashboard_page.dart';
+
+import 'constants/constants.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +20,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
 
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: DashboardPage()
     );
   }
 }
