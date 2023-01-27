@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_admin/page/dashboard_page.dart';
 
-import 'constants/constants.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
