@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_admin/page/dashboard_page.dart';
+import 'package:flutter_ecommerce_admin/page/launcher_page.dart';
+import 'package:flutter_ecommerce_admin/page/login_page.dart';
 
 
 void main() async{
@@ -21,7 +23,13 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.blueGrey,
       ),
-      home: DashboardPage()
+      initialRoute: LauncherPage.routeName,
+      routes: {
+        LauncherPage.routeName: (_) => LauncherPage(),
+        LoginPage.routeName: (_) => LoginPage(),
+        DashboardPage.routeName: (_) => DashboardPage(),
+
+      },
     );
   }
 }
