@@ -1,8 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_admin/page/category_page.dart';
 import 'package:flutter_ecommerce_admin/page/dashboard_page.dart';
 import 'package:flutter_ecommerce_admin/page/launcher_page.dart';
 import 'package:flutter_ecommerce_admin/page/login_page.dart';
+import 'package:flutter_ecommerce_admin/page/order_page.dart';
+import 'package:flutter_ecommerce_admin/page/product_page.dart';
+import 'package:flutter_ecommerce_admin/page/report_page.dart';
+import 'package:flutter_ecommerce_admin/page/settings_page.dart';
+import 'package:flutter_ecommerce_admin/page/user_page.dart';
 
 
 void main() async{
@@ -28,7 +34,12 @@ class MyApp extends StatelessWidget {
         LauncherPage.routeName: (_) => LauncherPage(),
         LoginPage.routeName: (_) => LoginPage(),
         DashboardPage.routeName: (_) => DashboardPage(),
-
+        ProductPage.routeName: (_) => ProductPage(),
+        CategoryPage.routeName: (_) => CategoryPage(),
+        OrderPage.routeName: (_) => OrderPage(),
+        UserPage.routeName: (_) => UserPage(),
+        SettingsPage.routeName: (_) => SettingsPage(),
+        ReportPage.routeName: (_) => ReportPage(),
       },
     );
   }

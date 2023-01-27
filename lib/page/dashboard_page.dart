@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_admin/models/dashboard_item.dart';
+import 'package:flutter_ecommerce_admin/page/product_page.dart';
+import 'package:flutter_ecommerce_admin/page/report_page.dart';
+import 'package:flutter_ecommerce_admin/page/settings_page.dart';
+import 'package:flutter_ecommerce_admin/page/user_page.dart';
 import 'package:flutter_ecommerce_admin/widgets/dashboard_item_view.dart';
+import 'package:flutter_ecommerce_admin/page/category_page.dart';
+import 'package:flutter_ecommerce_admin/page/order_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
