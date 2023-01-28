@@ -9,12 +9,17 @@ import 'package:flutter_ecommerce_admin/page/product_page.dart';
 import 'package:flutter_ecommerce_admin/page/report_page.dart';
 import 'package:flutter_ecommerce_admin/page/settings_page.dart';
 import 'package:flutter_ecommerce_admin/page/user_page.dart';
+import 'package:flutter_ecommerce_admin/providers/product_provider.dart';
+import 'package:provider/provider.dart';
 
-
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ProductProvider()),
+      ],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +31,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         primarySwatch: Colors.blueGrey,
       ),
       initialRoute: LauncherPage.routeName,
@@ -44,5 +48,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
