@@ -9,6 +9,7 @@ class DbHelper{
     final snapshot = await _db.collection(collectionAdmin).doc(uid).get();
     return snapshot.exists;
   }
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllCategories() =>
       _db.collection(collectionCategory).snapshots();
 }
