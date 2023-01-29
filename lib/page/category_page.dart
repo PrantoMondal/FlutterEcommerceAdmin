@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_admin/providers/product_provider.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +37,30 @@ class CategoryPage extends StatelessWidget {
                   );
                 },
               ),
+      ),
+      bottomSheet: DraggableScrollableSheet(
+        initialChildSize: 0.1,
+        minChildSize: 0.1,
+        maxChildSize: 0.5,
+        builder: (BuildContext context, ScrollController scrollController){
+          return Container(
+            color: Colors.blue[100],
+            child: ListView(
+              controller: scrollController,
+              children: [
+                const TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Enter New Category',
+                    filled: true,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(onPressed: (){}, child: const Text('ADD'))
+              ],
+            ),
+          );
+        },
+
       ),
     );
   }
