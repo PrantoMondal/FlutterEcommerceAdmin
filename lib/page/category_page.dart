@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_admin/models/category_model.dart';
 import 'package:flutter_ecommerce_admin/providers/product_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +12,7 @@ class CategoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final nameController = TextEditingController();
-    Provider.of<ProductProvider>(context, listen: false).getAllCategories();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Category Page')),
       body: Consumer<ProductProvider>(

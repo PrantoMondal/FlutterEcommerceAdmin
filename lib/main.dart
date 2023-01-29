@@ -4,6 +4,7 @@ import 'package:flutter_ecommerce_admin/page/category_page.dart';
 import 'package:flutter_ecommerce_admin/page/dashboard_page.dart';
 import 'package:flutter_ecommerce_admin/page/launcher_page.dart';
 import 'package:flutter_ecommerce_admin/page/login_page.dart';
+import 'package:flutter_ecommerce_admin/page/new_product_page.dart';
 import 'package:flutter_ecommerce_admin/page/order_page.dart';
 import 'package:flutter_ecommerce_admin/page/product_page.dart';
 import 'package:flutter_ecommerce_admin/page/report_page.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         UserPage.routeName: (_) => UserPage(),
         SettingsPage.routeName: (_) => SettingsPage(),
         ReportPage.routeName: (_) => ReportPage(),
+        NewProductPage.routeName: (_) => NewProductPage(),
       },
     );
   }
