@@ -47,32 +47,34 @@ class CategoryPage extends StatelessWidget {
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
             color: Colors.blue[100],
-            padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             child: ListView(
               controller: scrollController,
               children: [
                 const Icon(Icons.drag_handle),
                 const ListTile(
                   title: Text('ADD CATEGORY'),
-
                 ),
-                 TextField(
+                TextField(
                   controller: nameController,
                   decoration: const InputDecoration(
                     hintText: 'Enter New Category',
                     filled: true,
                   ),
                 ),
-                const SizedBox(
-                    height: 20
-                ),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: ElevatedButton(
-                      onPressed: () async{
-                      await Provider.of<ProductProvider>(context, listen: false).addCategory(nameController.text);
-                      nameController.clear();
-                  }, child: const Text('ADD')),
+                      onPressed: () async {
+                        nameController.text.isEmpty
+                            ? ""
+                            : await Provider.of<ProductProvider>(context,
+                                    listen: false)
+                                .addCategory(nameController.text);
+                        nameController.clear();
+                      },
+                      child: const Text('ADD')),
                 )
               ],
             ),
@@ -81,5 +83,4 @@ class CategoryPage extends StatelessWidget {
       ),
     );
   }
-
 }
