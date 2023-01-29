@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_admin/models/category_model.dart';
 import 'package:flutter_ecommerce_admin/providers/product_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +12,7 @@ class CategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nameController = TextEditingController();
     Provider.of<ProductProvider>(context, listen: false).getAllCategories();
     return Scaffold(
       appBar: AppBar(title: const Text('Category Page')),
@@ -25,7 +27,6 @@ class CategoryPage extends StatelessWidget {
                       style: Styles.textStyle,
                     ),
                   ],
-
                 ),
               )
             : ListView.builder(
@@ -33,35 +34,52 @@ class CategoryPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final category = provider.categoryList[index];
                   return ListTile(
-                    title: Text('${category.name}(${category.productCount})'),
+                    title: Text('${category.name} (${category.productCount})'),
                   );
                 },
               ),
       ),
       bottomSheet: DraggableScrollableSheet(
         initialChildSize: 0.1,
+        expand: false,
         minChildSize: 0.1,
-        maxChildSize: 0.5,
-        builder: (BuildContext context, ScrollController scrollController){
+        maxChildSize: 0.4,
+        builder: (BuildContext context, ScrollController scrollController) {
           return Container(
             color: Colors.blue[100],
+            padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 10),
             child: ListView(
               controller: scrollController,
               children: [
-                const TextField(
-                  decoration: InputDecoration(
+                const Icon(Icons.drag_handle),
+                const ListTile(
+                  title: Text('ADD CATEGORY'),
+
+                ),
+                 TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
                     hintText: 'Enter New Category',
                     filled: true,
                   ),
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(onPressed: (){}, child: const Text('ADD'))
+                const SizedBox(
+                    height: 20
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: ElevatedButton(
+                      onPressed: () async{
+                      await Provider.of<ProductProvider>(context, listen: false).addCategory(nameController.text);
+                      nameController.clear();
+                  }, child: const Text('ADD')),
+                )
               ],
             ),
           );
         },
-
       ),
     );
   }
+
 }

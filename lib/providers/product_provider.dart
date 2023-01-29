@@ -15,6 +15,11 @@ class ProductProvider extends ChangeNotifier {
 
   }
 
-
+  Future <void> addCategory (String category){
+    final categoryModel = CategoryModel(
+      name : category,
+    );
+    return DbHelper.addCategory(categoryModel);
+  }
 
 }
