@@ -68,7 +68,7 @@ class _NewProductPageState extends State<NewProductPage> {
               height: 10,
             ),
             TextFormField(
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.text,
               controller: descriptionController,
               decoration: const InputDecoration(
                 labelText: 'Product Description',
@@ -162,7 +162,7 @@ class _NewProductPageState extends State<NewProductPage> {
                         .toList(),
                   ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Card(
@@ -176,19 +176,23 @@ class _NewProductPageState extends State<NewProductPage> {
                   //getFormattedDateTime(_purchaseDate!, 'dd/MM/yyyy')),
                 ],
               ),
-            ), //date of birth
+            ),
+            const SizedBox(
+              height: 10,
+            ),//date of birth
             Card(
+              margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 80),
               elevation: 5,
               child: _imageUrl == null
                   ? Image.asset(
-                'images/placeholder.jpg',
-                height: 100,
+                'images/plant.png',
+                height: 120,
                 width: 100,
                 fit: BoxFit.contain,
               )
                   : Image.network(
                 _imageUrl!,
-                height: 100,
+                height: 120,
                 width: 100,
                 fit: BoxFit.contain,
               ),
@@ -202,7 +206,7 @@ class _NewProductPageState extends State<NewProductPage> {
                 ElevatedButton(
                     onPressed: () {
                       _imageSource = ImageSource.camera;
-                      //_getImage();
+                      _getImage();
                     },
                     child: Text('Camera')),
                 SizedBox(
@@ -211,7 +215,7 @@ class _NewProductPageState extends State<NewProductPage> {
                 ElevatedButton(
                     onPressed: () {
                       _imageSource = ImageSource.gallery;
-                      // _getImage();
+                       _getImage();
                     },
                     child: Text('Gallary')),
               ],
@@ -221,4 +225,20 @@ class _NewProductPageState extends State<NewProductPage> {
       ),
     );
   }
+
+
+
+  void _getImage() async {
+    final selecteImage = await ImagePicker().pickImage(source: _imageSource);
+    if (selecteImage != null) {
+      try {
+        final url =
+        await context.read<ProductProvider>().updateImage(selecteImage);
+        setState(() {
+          _imageUrl = url;
+        });
+      } catch (e) {}
+    }
+  }
 }
+
