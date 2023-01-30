@@ -1,10 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce_admin/models/date_model.dart';
+import 'package:flutter_ecommerce_admin/models/product_model.dart';
+import 'package:flutter_ecommerce_admin/models/purchase_model.dart';
+import 'package:flutter_ecommerce_admin/utils/helper_functions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/product_provider.dart';
+
 class NewProductPage extends StatefulWidget {
   static const String routeName = '/new_product';
+
   const NewProductPage({Key? key}) : super(key: key);
 
   @override
@@ -39,7 +46,7 @@ class _NewProductPageState extends State<NewProductPage> {
       appBar: AppBar(
         title: const Text('New Product'),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.save)),
+          IconButton(onPressed: _saveProduct, icon: Icon(Icons.save)),
         ],
       ),
       body: Form(
@@ -139,28 +146,27 @@ class _NewProductPageState extends State<NewProductPage> {
             Consumer<ProductProvider>(
               builder: (context, provider, _) =>
                   DropdownButtonFormField<String>(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'This field must not be empty';
-                      } else {
-                        return null;
-                      }
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        _category = value;
-                      });
-                    },
-                    hint: const Text('Select Category'),
-                    value: _category,
-                    items: provider.categoryList
-                        .map((model) =>
-                        DropdownMenuItem<String>(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'This field must not be empty';
+                  } else {
+                    return null;
+                  }
+                },
+                onChanged: (value) {
+                  setState(() {
+                    _category = value;
+                  });
+                },
+                hint: const Text('Select Category'),
+                value: _category,
+                items: provider.categoryList
+                    .map((model) => DropdownMenuItem<String>(
                           value: model.name,
                           child: Text(model.name!),
                         ))
-                        .toList(),
-                  ),
+                    .toList(),
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -170,32 +176,33 @@ class _NewProductPageState extends State<NewProductPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                      onPressed: () {}, //_selectDate,
+                      onPressed: _selectDate,
                       child: Text('Select Purchase Date')),
-                  Text(_purchaseDate == null ? 'No Date Chosen' : "")
-                  //getFormattedDateTime(_purchaseDate!, 'dd/MM/yyyy')),
+                  Text(_purchaseDate == null
+                      ? 'No Date Chosen'
+                      : getFormattedDateTime(_purchaseDate!, 'dd/MM/yyyy')),
                 ],
               ),
             ),
             const SizedBox(
               height: 10,
-            ),//date of birth
+            ),
             Card(
-              margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 80),
+              margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 80),
               elevation: 5,
               child: _imageUrl == null
                   ? Image.asset(
-                'images/plant.png',
-                height: 120,
-                width: 100,
-                fit: BoxFit.contain,
-              )
+                      'images/plant.png',
+                      height: 120,
+                      width: 100,
+                      fit: BoxFit.contain,
+                    )
                   : Image.network(
-                _imageUrl!,
-                height: 120,
-                width: 100,
-                fit: BoxFit.contain,
-              ),
+                      _imageUrl!,
+                      height: 120,
+                      width: 100,
+                      fit: BoxFit.contain,
+                    ),
             ),
             const SizedBox(
               height: 20,
@@ -208,14 +215,14 @@ class _NewProductPageState extends State<NewProductPage> {
                       _imageSource = ImageSource.camera;
                       _getImage();
                     },
-                    child: Text('Camera')),
-                SizedBox(
+                    child: const Text('Camera')),
+                const SizedBox(
                   width: 20,
                 ),
                 ElevatedButton(
                     onPressed: () {
                       _imageSource = ImageSource.gallery;
-                       _getImage();
+                      _getImage();
                     },
                     child: Text('Gallary')),
               ],
@@ -226,14 +233,72 @@ class _NewProductPageState extends State<NewProductPage> {
     );
   }
 
+  void _saveProduct() async {
+    if (_imageUrl == null) {
+      showMsg(context, 'Image required for product');
+      return;
+    }
+    if (_purchaseDate == null) {
+      showMsg(context, 'Purchase Date is required');
+      return;
+    }
+    if (from_key.currentState!.validate()) {
+      final productModel = ProductModel(
+        name: nameController.text,
+        description: descriptionController.text,
+        category: _category,
+        salesPrice: num.parse(salePriceController.text),
+        imageUrl: _imageUrl,
+      );
+      final purchaseModel = PurchaseModel(
+        dateModel: DateModel(
+          timestamp: Timestamp.fromDate(_purchaseDate!),
+          day: _purchaseDate!.day,
+          month: _purchaseDate!.month,
+          year: _purchaseDate!.year,
+        ),
+        price: num.parse(purchasePriceController.text),
+        quantity: num.parse(quantityController.text),
+      );
+      final catModel =
+          context.read<ProductProvider>().getCategoryByName(_category!);
+      context
+          .read<ProductProvider>()
+          .addProduct(productModel, purchaseModel, catModel)
+          .then((value) {
+        setState(() {
+          nameController.clear();
+          descriptionController.clear();
+          purchasePriceController.clear();
+          salePriceController.clear();
+          quantityController.clear();
+          _purchaseDate = null;
+          _imageUrl = null;
+          _category = null;
+        });
+      });
+    }
+  }
 
+  void _selectDate() async {
+    final selectedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1950),
+        lastDate: DateTime.now());
+    if (selectedDate != null) {
+      setState(() {
+        _purchaseDate = selectedDate;
+      });
+    }
+  }
 
   void _getImage() async {
-    final selecteImage = await ImagePicker().pickImage(source: _imageSource);
-    if (selecteImage != null) {
+    final selectedImage = await ImagePicker().pickImage(source: _imageSource);
+    if (selectedImage != null) {
       try {
         final url =
-        await context.read<ProductProvider>().updateImage(selecteImage);
+            await context.read<ProductProvider>().updateImage(selectedImage);
         setState(() {
           _imageUrl = url;
         });
@@ -241,4 +306,3 @@ class _NewProductPageState extends State<NewProductPage> {
     }
   }
 }
-
