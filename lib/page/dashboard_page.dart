@@ -19,6 +19,8 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     //fetch category, app run er sathe sathei db theke tule ene rakhlam
     Provider.of<ProductProvider>(context, listen: false).getAllCategories();
+    //Product ene rakhlam
+    Provider.of<ProductProvider>(context, listen: false).getAllProducts();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),

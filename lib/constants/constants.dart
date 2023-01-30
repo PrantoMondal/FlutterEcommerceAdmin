@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 Color primary = const Color(0xFF687daf);
+String currencySymbol = '৳';
+
 
 class Styles {
   static Color primaryColor = primary;
