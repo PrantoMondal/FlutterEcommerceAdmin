@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_ecommerce_admin/db/dbhelper.dart';
@@ -25,6 +26,9 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getProductById(String id) =>
+  DbHelper.getProductById(id);
 
 
   Future<void> addCategory(String category) {

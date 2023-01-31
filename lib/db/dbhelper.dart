@@ -42,4 +42,6 @@ class DbHelper {
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts() =>
       _db.collection(collectionProduct).snapshots();
+  static Stream<DocumentSnapshot<Map<String, dynamic>>> getProductById(String id) =>
+      _db.collection(collectionProduct).doc(id).snapshots();
 }

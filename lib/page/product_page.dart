@@ -47,7 +47,7 @@ class _ProductPageState extends State<ProductPage> {
                         horizontal: 8.0, vertical: 2.0),
                     child: ListTile(
                       onTap: () {
-                        Navigator.pushNamed(context, ProductDetailsPage.routeName);
+                        Navigator.pushNamed(context, ProductDetailsPage.routeName,arguments: product.id);
                       },
                       tileColor: index.isEven
                           ? Colors.blue.shade100
