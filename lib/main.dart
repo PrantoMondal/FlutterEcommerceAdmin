@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_ecommerce_admin/page/category_page.dart';
 import 'package:flutter_ecommerce_admin/page/dashboard_page.dart';
 import 'package:flutter_ecommerce_admin/page/launcher_page.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
+      builder: EasyLoading.init(),
       initialRoute: LauncherPage.routeName,
       routes: {
         LauncherPage.routeName: (_) => LauncherPage(),
