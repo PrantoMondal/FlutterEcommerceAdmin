@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce_admin/models/product_model.dart';
+import 'package:flutter_ecommerce_admin/utils/helper_functions.dart';
 import 'package:provider/provider.dart';
 import '../constants/constants.dart';
 import '../providers/product_provider.dart';
@@ -41,7 +42,10 @@ class ProductDetailsPage extends StatelessWidget {
                       TextButton(
                           onPressed: () {}, child: const Text('Re-Purchase')),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            provider.getAllPurchaseByProduct(pid);
+                            _showPurchaseHistory(context,provider);
+                          },
                           child: const Text('Purchase-History')),
                     ],
                   ),
@@ -96,5 +100,19 @@ class ProductDetailsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showPurchaseHistory(BuildContext context, ProductProvider provider) {
+    showModalBottomSheet(context: context, builder:(context) => ListView.builder(
+      itemCount: provider.purchaseListOfSpecificProduct.length,
+      itemBuilder: (context, index) {
+        final purchase = provider.purchaseListOfSpecificProduct[index];
+        return ListTile(
+          title: Text(getFormattedDateTime(purchase.dateModel.timestamp.toDate(), 'dd/MM/yyyy')),
+          subtitle: Text('Quantity: ${purchase.quantity}'),
+          trailing: Text('$currencySymbol: ${purchase.price}'),
+        );
+      },
+    ));
   }
 }

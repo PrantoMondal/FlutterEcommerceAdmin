@@ -27,10 +27,10 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
-  getAllPurchaseByProduct() {
-    DbHelper.getAllProducts().listen((snapshot) {
-      productList = List.generate(snapshot.docs.length,
-          (index) => ProductModel.fromMap(snapshot.docs[index].data()));
+  getAllPurchaseByProduct(String pid) {
+    DbHelper.getAllPurchaseByProduct(pid).listen((snapshot) {
+      purchaseListOfSpecificProduct = List.generate(snapshot.docs.length,
+          (index) => PurchaseModel.fromMap(snapshot.docs[index].data()));
       notifyListeners();
     });
   }
