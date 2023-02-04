@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 class ProductProvider extends ChangeNotifier {
   List<ProductModel> productList = [];
   List<CategoryModel> categoryList = [];
+  List<PurchaseModel> purchaseListOfSpecificProduct = [];
 
   getAllCategories() {
     DbHelper.getAllCategories().listen((snapshot) {
@@ -20,6 +21,13 @@ class ProductProvider extends ChangeNotifier {
     });
   }
   getAllProducts() {
+    DbHelper.getAllProducts().listen((snapshot) {
+      productList = List.generate(snapshot.docs.length,
+          (index) => ProductModel.fromMap(snapshot.docs[index].data()));
+      notifyListeners();
+    });
+  }
+  getAllPurchaseByProduct() {
     DbHelper.getAllProducts().listen((snapshot) {
       productList = List.generate(snapshot.docs.length,
           (index) => ProductModel.fromMap(snapshot.docs[index].data()));
@@ -48,6 +56,9 @@ class ProductProvider extends ChangeNotifier {
     final model = categoryList.firstWhere((element) => element.name == name);
     return model;
   }
+
+  Future<void>updateProduct(String id,String field,dynamic value) =>
+  DbHelper.updateProduct(id, {field: value});
 
   Future<String> updateImage(XFile xFile) async {
     final imageName = DateTime.now().millisecondsSinceEpoch.toString();

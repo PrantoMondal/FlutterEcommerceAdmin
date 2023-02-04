@@ -44,4 +44,11 @@ class DbHelper {
       _db.collection(collectionProduct).snapshots();
   static Stream<DocumentSnapshot<Map<String, dynamic>>> getProductById(String id) =>
       _db.collection(collectionProduct).doc(id).snapshots();
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllPurchaseByProduct(String pid) =>
+      _db.collection(collectionPurchase)
+          .where(purchaseProductId, isEqualTo: pid)
+          .snapshots();
+
+  static Future<void> updateProduct(String id,Map<String,dynamic>map) =>
+      _db.collection(collectionProduct).doc(id).update(map);
 }

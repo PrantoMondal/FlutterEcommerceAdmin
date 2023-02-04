@@ -70,12 +70,16 @@ class ProductDetailsPage extends StatelessWidget {
                   SwitchListTile(
                     title: const Text('Available'),
                     value: product.available,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      provider.updateProduct(pid, productAvailable, value);
+                    },
                   ),
                   SwitchListTile(
                     title: const Text('Featured'),
                     value: product.featured,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      provider.updateProduct(pid, productFeatured, value);
+                    },
                   ),
                 ],
               );
